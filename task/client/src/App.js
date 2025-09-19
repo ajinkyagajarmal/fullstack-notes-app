@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getNotes, createNote, deleteNote } from "./api/notesApi";
+import { getNotes, createNote, deleteNote, summarizeNote } from "./api/notesApi";
 import "./App.css";
 
 function App() {
   const [notes, setNotes] = useState([]);
   const [form, setForm] = useState({ title: "", content: "" });
-  const [summaries, setSummaries] = useState({}); // store summaries
+  const [summaries, setSummaries] = useState({});
 
   useEffect(() => {
     fetchNotes();
@@ -14,7 +14,7 @@ function App() {
   const fetchNotes = async () => {
     try {
       const data = await getNotes();
-      setNotes(Array.isArray(data) ? data : []); // Ensure it's always an array
+      setNotes(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Failed to fetch notes:", error);
       setNotes([]);
@@ -35,13 +35,7 @@ function App() {
 
   const handleSummarize = async (id) => {
     try {
-      const res = await fetch(`/api/notes/${id}/summarize`, { method: "POST" });
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to summarize");
-      }
-
+      const data = await summarizeNote(id);
       setSummaries((prev) => ({ ...prev, [id]: data.summary }));
     } catch (err) {
       setSummaries((prev) => ({ ...prev, [id]: `⚠ ${err.message}` }));
