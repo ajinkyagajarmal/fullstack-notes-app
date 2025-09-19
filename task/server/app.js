@@ -92,10 +92,10 @@ const noteSchema = new mongoose.Schema({
 
 const Note = mongoose.model('Note', noteSchema);
 
-// OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // store in .env
-});
+// // OpenAI client
+// const openai = new OpenAI({
+//   apiKey: process.env.OPENAI_API_KEY, // store in .env
+// });
 
 // CREATE a new note
 app.post('/api/notes', async (req, res) => {
