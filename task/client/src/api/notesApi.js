@@ -9,7 +9,7 @@
 
 import axios from "axios";
 
-const API_URL = "/api/notes";
+const API_URL = `${process.env.REACT_APP_VERCEL_KEY || "https://fullstack-notes-app-n82j.vercel.app"}/api/notes`;
 
 export const getNotes = async () => (await axios.get(API_URL)).data;
 export const createNote = async (note) => (await axios.post(API_URL, note)).data;
